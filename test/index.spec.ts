@@ -1,11 +1,12 @@
 import { expect } from 'aegir/utils/chai.js'
 import { pair } from 'it-pair'
-import { itPbRpc, WrappedDuplex } from '../src/index.js'
+import { pbStream } from '../src/index.js'
 import { int32BEDecode, int32BEEncode } from 'it-length-prefixed'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { concat as uint8ArrayConcat } from 'uint8arrays/concat'
 import { Uint8ArrayList } from 'uint8arraylist'
 import { Buffer } from 'buffer'
+import type { WrappedDuplex } from '../src/index.js'
 
 /* eslint-env mocha */
 /* eslint-disable require-await */
@@ -66,7 +67,7 @@ Object.keys(tests).forEach(key => {
     let w: WrappedDuplex
 
     before(async () => {
-      w = itPbRpc(pair<Uint8Array>())
+      w = pbStream(pair<Uint8Array>())
     })
 
     describe('length-prefixed', () => {
@@ -80,7 +81,7 @@ Object.keys(tests).forEach(key => {
 
       it('lp fixed encode', async () => {
         const duplex = pair<Uint8Array>()
-        const wrap = itPbRpc(duplex, { lengthEncoder: int32BEEncode })
+        const wrap = pbStream(duplex, { lengthEncoder: int32BEEncode })
         const data = test.from('hellllllllloooo')
 
         wrap.writeLP(data)
@@ -93,7 +94,7 @@ Object.keys(tests).forEach(key => {
 
       it('lp fixed decode', async () => {
         const duplex = pair<Uint8Array>()
-        const wrap = itPbRpc(duplex, { lengthDecoder: int32BEDecode })
+        const wrap = pbStream(duplex, { lengthDecoder: int32BEDecode })
         const data = test.from('hellllllllloooo')
         const length = test.allocUnsafe(4)
         test.writeInt32BE(length, data.length, 0)
@@ -106,7 +107,7 @@ Object.keys(tests).forEach(key => {
 
       it('lp exceeds max length decode', async () => {
         const duplex = pair<Uint8Array>()
-        const wrap = itPbRpc(duplex, { lengthDecoder: int32BEDecode, maxDataLength: 32 })
+        const wrap = pbStream(duplex, { lengthDecoder: int32BEDecode, maxDataLength: 32 })
         const data = test.alloc(33, 1)
         const length = test.allocUnsafe(4)
         test.writeInt32BE(length, data.length, 0)
@@ -119,7 +120,7 @@ Object.keys(tests).forEach(key => {
 
       it('lp max length decode', async () => {
         const duplex = pair<Uint8Array>()
-        const wrap = itPbRpc(duplex, { lengthDecoder: int32BEDecode, maxDataLength: 5000 })
+        const wrap = pbStream(duplex, { lengthDecoder: int32BEDecode, maxDataLength: 5000 })
         const data = test.allocUnsafe(4000)
         const length = test.allocUnsafe(4)
         test.writeInt32BE(length, data.length, 0)

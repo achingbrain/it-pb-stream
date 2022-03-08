@@ -38,7 +38,7 @@ export interface Opts {
   maxDataLength: number
 }
 
-export function itPbRpc (duplex: Duplex<Uint8Array>, opts = {}): WrappedDuplex {
+export function pbStream (duplex: Duplex<Uint8Array>, opts = {}): WrappedDuplex {
   const shake = handshake(duplex)
   const lpReader = lp.decode.fromReader(
     shake.reader,
