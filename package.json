@@ -119,9 +119,9 @@
   "scripts": {
     "lint": "aegir lint",
     "dep-check": "aegir dep-check dist/src/**/*.js dist/test/**/*.js",
-    "build": "tsc",
+    "build": "tsc --traceResolution",
     "pretest": "npm run build",
-    "test": "ls -laR dist && aegir test -f ./dist/test/*.js",
+    "test": "aegir test -f ./dist/test",
     "test:chrome": "npm run test -- -t browser --cov",
     "test:chrome-webworker": "npm run test -- -t webworker",
     "test:firefox": "npm run test -- -t browser -- --browser firefox",
