@@ -3,7 +3,7 @@ import * as lp from 'it-length-prefixed'
 import type { Duplex } from 'it-stream-types'
 import type { Uint8ArrayList } from 'uint8arraylist'
 
-export interface PBStream {
+export interface ProtobufStream {
   read: (bytes?: number) => Promise<Uint8ArrayList>
   readLP: () => Promise<Uint8ArrayList>
   readPB: <T>(proto: {decode: (data: Uint8Array) => T}) => Promise<T>
@@ -38,14 +38,14 @@ export interface Opts {
   maxDataLength: number
 }
 
-export function pbStream (duplex: Duplex<Uint8Array>, opts = {}): PBStream {
+export function pbStream (duplex: Duplex<Uint8Array>, opts = {}): ProtobufStream {
   const shake = handshake(duplex)
   const lpReader = lp.decode.fromReader(
     shake.reader,
     opts
   )
 
-  const W: PBStream = {
+  const W: ProtobufStream = {
     read: async (bytes) => {
       // just read
       const { value } = await shake.reader.next(bytes)

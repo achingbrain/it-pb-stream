@@ -6,7 +6,7 @@ import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { concat as uint8ArrayConcat } from 'uint8arrays/concat'
 import { Uint8ArrayList } from 'uint8arraylist'
 import { Buffer } from 'buffer'
-import type { PBStream } from '../src/index.js'
+import type { ProtobufStream } from '../src/index.js'
 
 /* eslint-env mocha */
 /* eslint-disable require-await */
@@ -64,7 +64,7 @@ Object.keys(tests).forEach(key => {
   const test = tests[key]
 
   describe(`it-pb-rpc ${key}`, () => {
-    let w: PBStream
+    let w: ProtobufStream
 
     before(async () => {
       w = pbStream(pair<Uint8Array>())
