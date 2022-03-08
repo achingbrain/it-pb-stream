@@ -1,3 +1,10 @@
+### [1.0.2](https://github.com/achingbrain/it-pb-stream/compare/v1.0.1...v1.0.2) (2022-03-08)
+
+
+### Bug Fixes
+
+* rename type ([#3](https://github.com/achingbrain/it-pb-stream/issues/3)) ([1ed038b](https://github.com/achingbrain/it-pb-stream/commit/1ed038bd887570beda3e0a2c520c61ae1eb9e8dd))
+
 ### [1.0.1](https://github.com/achingbrain/it-pb-stream/compare/v1.0.0...v1.0.1) (2022-03-08)
 
 
