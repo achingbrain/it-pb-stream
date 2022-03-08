@@ -36,5 +36,5 @@ export interface Opts {
     maxLengthLength: number;
     maxDataLength: number;
 }
-export declare function itPbRpc(duplex: Duplex<Uint8Array>, opts?: {}): WrappedDuplex;
+export declare function pbStream(duplex: Duplex<Uint8Array>, opts?: {}): WrappedDuplex;
 //# sourceMappingURL=index.d.ts.map

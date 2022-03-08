@@ -1,16 +1,36 @@
-# it-pb-rpc
+# it-pb-stream <!-- omit in toc -->
 
-A convinience-wrapper arround protocol-buffers and lp-messages functions
+[![Build Status](https://github.com/achingbrain/it-pb-stream/actions/workflows/js-test-and-release.yml/badge.svg?branch=main)](https://github.com/achingbrain/it-pb-stream/actions/workflows/js-test-and-release.yml)
 
-# API
+> A convinience-wrapper arround protocol-buffers and lp-messages functions
 
-- `wrap(duplex, opts)`: Wraps a duplex, returns below object (opts=Object with encode/decode opts from [it-length-prefixed api](https://www.npmjs.com/package/it-length-prefixed#api))
-  - `.read(bytes)`: async, reads the given amount of bytes
-  - `.readLP()`: async, reads one length-prefixed message
-  - `.readPB(proto)`: async, reads one protocol-buffers length-prefixed message (proto=Object with .encode, .decode functions)
-  - `.write(data)`: writes the given data (data=Buffer or BufferList)
-  - `.writeLP(data)`: writes the given data with a length-prefixe (data=Buffer or BufferList)
-  - `.writePB(data, proto)`: encodes the data, then writes it withg a length-prefix (data=Buffer or BufferList, proto=Object with .encode, .decode functions)
-  - `.pb(proto)`: returns a convinience wrapper for writing messages
-    - `.read()`: reads one length-prefixed message encoded with `proto`
-    - `.write(data)`: writes one length-prefixed message encoded with `proto`
+- [Install](#install)
+  - [npm](#npm)
+- [Usage](#usage)
+- [License](#license)
+
+## Install
+
+### npm
+
+```sh
+> npm install it-pb-stream
+```
+
+## Usage
+
+```js
+import { pbStream } from 'it-pb-stream'
+
+const stream = pbStream(duplex)
+stream.writeLP(buf)
+stream.writePB(buf, def)
+//.. etc
+```
+
+## License
+
+Licensed under either of
+
+ * Apache 2.0, ([LICENSE-APACHE](LICENSE-APACHE) / http://www.apache.org/licenses/LICENSE-2.0)
+ * MIT ([LICENSE-MIT](LICENSE-MIT) / http://opensource.org/licenses/MIT)

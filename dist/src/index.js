@@ -1,6 +1,6 @@
 import { handshake } from 'it-handshake';
 import * as lp from 'it-length-prefixed';
-export function itPbRpc(duplex, opts = {}) {
+export function pbStream(duplex, opts = {}) {
     const shake = handshake(duplex);
     const lpReader = lp.decode.fromReader(shake.reader, opts);
     const W = {
