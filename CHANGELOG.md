@@ -1,3 +1,10 @@
+### [1.0.1](https://github.com/achingbrain/it-pb-stream/compare/v1.0.0...v1.0.1) (2022-03-08)
+
+
+### Bug Fixes
+
+* make type name more descriptive ([#2](https://github.com/achingbrain/it-pb-stream/issues/2)) ([1f82fe4](https://github.com/achingbrain/it-pb-stream/commit/1f82fe41cca8e8e2a888e1a94690488d656f9ad9))
+
 ## 1.0.0 (2022-03-08)
 
 
