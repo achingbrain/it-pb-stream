@@ -119,7 +119,7 @@
   "scripts": {
     "lint": "aegir lint",
     "dep-check": "aegir dep-check dist/src/**/*.js dist/test/**/*.js",
-    "build": "tsc --traceResolution",
+    "build": "tsc",
     "pretest": "npm run build",
     "test": "aegir test -f ./dist/test",
     "test:chrome": "npm run test -- -t browser --cov",
