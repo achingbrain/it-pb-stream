@@ -24,24 +24,14 @@ export interface ProtobufStream {
   unwrap: () => Duplex<Uint8Array>
 }
 
-export interface LengthDecoderFunction {
-  (data: Uint8ArrayList): number
-  bytes: number
-}
-
-export interface LengthEncoderFunction {
-  (value: number, target: Uint8ArrayList, offset: number): Uint8ArrayList
-  bytes: number
-}
-
 export interface Opts {
   // encoding opts
   poolSize: number
   minPoolSize: number
-  lengthEncoder: LengthEncoderFunction
+  lengthEncoder: lp.LengthEncoderFunction
 
   // decoding opts
-  lengthDecoder: LengthDecoderFunction
+  lengthDecoder: lp.LengthDecoderFunction
   maxLengthLength: number
   maxDataLength: number
 }
