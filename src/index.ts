@@ -3,26 +3,34 @@ import * as lp from 'it-length-prefixed'
 import type { Duplex } from 'it-stream-types'
 import type { Uint8ArrayList } from 'uint8arraylist'
 
+interface Decoder<T> {
+  (data: Uint8Array | Uint8ArrayList): T
+}
+
+interface Encoder<T> {
+  (data: T): Uint8ArrayList
+}
+
 export interface ProtobufStream {
   read: (bytes?: number) => Promise<Uint8ArrayList>
   readLP: () => Promise<Uint8ArrayList>
-  readPB: <T>(proto: {decode: (data: Uint8Array) => T}) => Promise<T>
+  readPB: <T>(proto: { decode: Decoder<T> }) => Promise<T>
   write: (input: Uint8Array | Uint8ArrayList) => void
   writeLP: (input: Uint8Array | Uint8ArrayList) => void
-  writePB: (data: Uint8Array | Uint8ArrayList, proto: {encode: (data: any) => Uint8Array}) => void
-  pb: <Return>(proto: {encode: (data: any) => Uint8Array, decode: (data: Uint8Array) => Return}) => {read: () => Promise<Return>, write: (d: Uint8Array) => void}
+  writePB: (data: Uint8Array | Uint8ArrayList, proto: {encode: (data: any) => Uint8ArrayList}) => void
+  pb: <T> (proto: {encode: Encoder<T>, decode: Decoder<T> }) => {read: () => Promise<T>, write: (d: Uint8Array | Uint8ArrayList) => void}
 
   // return vanilla duplex
   unwrap: () => Duplex<Uint8Array>
 }
 
 export interface LengthDecoderFunction {
-  (data: Uint8Array | Uint8ArrayList): number
+  (data: Uint8ArrayList): number
   bytes: number
 }
 
 export interface LengthEncoderFunction {
-  (value: number, target: Uint8Array, offset: number): number | Uint8Array
+  (value: number, target: Uint8ArrayList, offset: number): Uint8ArrayList
   bytes: number
 }
 
