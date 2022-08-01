@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/achingbrain/it-pb-stream/compare/v2.0.0...v2.0.1) (2022-08-01)
+
+
+### Bug Fixes
+
+* use decoder/encoder types from it-length-prefixed ([#29](https://github.com/achingbrain/it-pb-stream/issues/29)) ([935f68d](https://github.com/achingbrain/it-pb-stream/commit/935f68d7139db5312ca9b3a9170977337347a074))
+
 ## [2.0.0](https://github.com/achingbrain/it-pb-stream/compare/v1.0.2...v2.0.0) (2022-08-01)
 
 
