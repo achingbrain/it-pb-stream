@@ -1,4 +1,4 @@
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import { pair } from 'it-pair'
 import { pbStream } from '../src/index.js'
 import { int32BEDecode, int32BEEncode } from 'it-length-prefixed'
