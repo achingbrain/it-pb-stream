@@ -1,7 +1,8 @@
 import { expect } from 'aegir/chai'
 import { pair } from 'it-pair'
 import { pbStream } from '../src/index.js'
-import { int32BEDecode, int32BEEncode } from 'it-length-prefixed'
+import { int32BEEncode } from './fixtures/int32BE-encode.js'
+import { int32BEDecode } from './fixtures/int32BE-decode.js'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { concat as uint8ArrayConcat } from 'uint8arrays/concat'
 import { Uint8ArrayList } from 'uint8arraylist'
@@ -115,7 +116,7 @@ Object.keys(tests).forEach(key => {
 
         wrap.write(encoded)
 
-        await expect(wrap.readLP()).to.eventually.be.rejectedWith(/message data too long/)
+        await expect(wrap.readLP()).to.eventually.be.rejectedWith(/too long/)
       })
 
       it('lp max length decode', async () => {
