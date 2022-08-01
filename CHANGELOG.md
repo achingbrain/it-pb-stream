@@ -1,3 +1,19 @@
+## [2.0.0](https://github.com/achingbrain/it-pb-stream/compare/v1.0.2...v2.0.0) (2022-08-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* uses new majors of it-length-prefixed and uint8arraylist deps
+
+### Trivial Changes
+
+* update project config ([#25](https://github.com/achingbrain/it-pb-stream/issues/25)) ([5c5a9be](https://github.com/achingbrain/it-pb-stream/commit/5c5a9bea5502a359c04ccd56201a0c8272d73302))
+
+
+### Dependencies
+
+* update it-length-prefixed and uint8arraylist deps ([#28](https://github.com/achingbrain/it-pb-stream/issues/28)) ([4273397](https://github.com/achingbrain/it-pb-stream/commit/427339745398d5277818949608a7655d0a0266f9))
+
 ### [1.0.2](https://github.com/achingbrain/it-pb-stream/compare/v1.0.1...v1.0.2) (2022-03-08)
 
 
