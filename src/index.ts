@@ -8,7 +8,7 @@ interface Decoder<T> {
 }
 
 interface Encoder<T> {
-  (data: T): Uint8ArrayList
+  (data: T): Uint8Array
 }
 
 export interface ProtobufStream {
@@ -17,11 +17,11 @@ export interface ProtobufStream {
   readPB: <T>(proto: { decode: Decoder<T> }) => Promise<T>
   write: (input: Uint8Array | Uint8ArrayList) => void
   writeLP: (input: Uint8Array | Uint8ArrayList) => void
-  writePB: (data: Uint8Array | Uint8ArrayList, proto: {encode: (data: any) => Uint8ArrayList}) => void
+  writePB: (data: Uint8Array | Uint8ArrayList, proto: {encode: Encoder<any>}) => void
   pb: <T> (proto: {encode: Encoder<T>, decode: Decoder<T> }) => {read: () => Promise<T>, write: (d: Uint8Array | Uint8ArrayList) => void}
 
   // return vanilla duplex
-  unwrap: () => Duplex<Uint8Array>
+  unwrap: () => Duplex<Uint8ArrayList, Uint8Array>
 }
 
 export interface Opts {

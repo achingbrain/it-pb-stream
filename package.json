@@ -136,7 +136,7 @@
     "release": "aegir release"
   },
   "dependencies": {
-    "it-handshake": "^4.0.1",
+    "it-handshake": "^4.1.2",
     "it-length-prefixed": "^8.0.2",
     "it-stream-types": "^1.0.4",
     "uint8arraylist": "^2.0.0"
