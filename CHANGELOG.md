@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/achingbrain/it-pb-stream/compare/v2.0.1...v2.0.2) (2022-08-11)
+
+
+### Dependencies
+
+* update it-handshake ([#30](https://github.com/achingbrain/it-pb-stream/issues/30)) ([02eb7a1](https://github.com/achingbrain/it-pb-stream/commit/02eb7a1b4092497ddfb383c80e3382917fb9ab76))
+
 ## [2.0.1](https://github.com/achingbrain/it-pb-stream/compare/v2.0.0...v2.0.1) (2022-08-01)
 
 
