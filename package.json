@@ -20,7 +20,7 @@
   "types": "./dist/src/index.d.ts",
   "files": [
     "src",
-    "dist/src",
+    "dist",
     "!dist/test",
     "!**/*.tsbuildinfo"
   ],
@@ -133,7 +133,8 @@
     "test:firefox-webworker": "aegir test -t webworker -- --browser firefox",
     "test:node": "aegir test -t node --cov",
     "test:electron-main": "aegir test -t electron-main",
-    "release": "aegir release"
+    "release": "aegir release",
+    "docs": "aegir docs"
   },
   "dependencies": {
     "it-handshake": "^4.1.2",
@@ -142,9 +143,9 @@
     "uint8arraylist": "^2.0.0"
   },
   "devDependencies": {
-    "aegir": "^37.4.7",
+    "aegir": "^37.7.11",
     "buffer": "^6.0.3",
     "it-pair": "^2.0.2",
-    "uint8arrays": "^3.0.0"
+    "uint8arrays": "^4.0.2"
   }
 }
