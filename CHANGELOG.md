@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/achingbrain/it-pb-stream/compare/v2.0.2...v2.0.3) (2022-12-22)
+
+
+### Bug Fixes
+
+* relax input type and generate typedocs ([#32](https://github.com/achingbrain/it-pb-stream/issues/32)) ([5709cd9](https://github.com/achingbrain/it-pb-stream/commit/5709cd94921ee64e8491899853d687890cebaa00))
+
 ## [2.0.2](https://github.com/achingbrain/it-pb-stream/compare/v2.0.1...v2.0.2) (2022-08-11)
 
 
