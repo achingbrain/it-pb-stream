@@ -41,7 +41,7 @@ export interface Encoder<T> {
 }
 
 /**
- * Convinience methods for working with protobuf streams
+ * Convenience methods for working with protobuf streams
  */
 export interface ProtobufStream <TSink> {
   /**
