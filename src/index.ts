@@ -43,7 +43,7 @@ export interface Encoder<T> {
 /**
  * Convinience methods for working with protobuf streams
  */
-export interface ProtobufStream {
+export interface ProtobufStream <TSink> {
   /**
    * Read a set number of bytes from the stream
    */
@@ -82,7 +82,7 @@ export interface ProtobufStream {
   /**
    * Returns the underlying stream
    */
-  unwrap: () => Duplex<Uint8ArrayList, Uint8Array>
+  unwrap: () => Duplex<Uint8ArrayList, TSink>
 }
 
 export interface Opts {
@@ -97,14 +97,14 @@ export interface Opts {
   maxDataLength: number
 }
 
-export function pbStream (duplex: Duplex<Uint8ArrayList | Uint8Array, Uint8Array>, opts = {}): ProtobufStream {
+export function pbStream <TSink extends Uint8Array | Uint8ArrayList> (duplex: Duplex<Uint8ArrayList | Uint8Array, TSink>, opts = {}): ProtobufStream<TSink> {
   const shake = handshake(duplex)
   const lpReader = lp.decode.fromReader(
     shake.reader,
     opts
   )
 
-  const W: ProtobufStream = {
+  const W: ProtobufStream<TSink> = {
     read: async (bytes) => {
       // just read
       const { value } = await shake.reader.next(bytes)
@@ -142,8 +142,10 @@ export function pbStream (duplex: Duplex<Uint8ArrayList | Uint8Array, Uint8Array
     write: (data) => {
       // just write
       if (data instanceof Uint8Array) {
+        // @ts-expect-error writer should always accept pushing Uint8Arrays
         shake.writer.push(data)
       } else {
+        // @ts-expect-error writer should always accept pushing Uint8Arrays
         shake.writer.push(data.subarray())
       }
     },
