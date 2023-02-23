@@ -1,3 +1,14 @@
+## [3.0.0](https://github.com/achingbrain/it-pb-stream/compare/v2.0.4...v3.0.0) (2023-02-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* The ProtobufStream type is now generic - it can be inferred from the return type of `pbStream` but may need to be specified where it it accepted as an argument
+
+### Bug Fixes
+
+* derive unwrapped stream type from input ([#39](https://github.com/achingbrain/it-pb-stream/issues/39)) ([e85d75e](https://github.com/achingbrain/it-pb-stream/commit/e85d75ed578c2c7525f4657850a6af57dd3635a8))
+
 ## [2.0.4](https://github.com/achingbrain/it-pb-stream/compare/v2.0.3...v2.0.4) (2023-02-23)
 
 
