@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/achingbrain/it-pb-stream/compare/v2.0.3...v2.0.4) (2023-02-23)
+
+
+### Dependencies
+
+* **dev:** bump aegir from 37.12.1 to 38.1.6 ([#38](https://github.com/achingbrain/it-pb-stream/issues/38)) ([6d3136e](https://github.com/achingbrain/it-pb-stream/commit/6d3136eebd68a4bb5dd7bba753e8e73625173cb9))
+
 ## [2.0.3](https://github.com/achingbrain/it-pb-stream/compare/v2.0.2...v2.0.3) (2022-12-22)
 
 
