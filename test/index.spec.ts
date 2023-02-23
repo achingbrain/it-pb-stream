@@ -12,7 +12,7 @@ import type { ProtobufStream } from '../src/index.js'
 /* eslint-env mocha */
 /* eslint-disable require-await */
 
-const assertBytesEqual = (a: Uint8Array | Uint8ArrayList, b: Uint8Array | Uint8ArrayList) => {
+const assertBytesEqual = (a: Uint8Array | Uint8ArrayList, b: Uint8Array | Uint8ArrayList): void => {
   a = a instanceof Uint8Array ? a : a.slice()
   b = b instanceof Uint8Array ? b : b.slice()
 

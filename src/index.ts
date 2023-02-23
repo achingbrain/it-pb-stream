@@ -72,12 +72,12 @@ export interface ProtobufStream {
   /**
    * Encode the passed object as a protobuf message and write it's length-prefixed bytes tot he stream
    */
-  writePB: <T>(data: T, proto: {encode: Encoder<T>}) => void
+  writePB: <T>(data: T, proto: { encode: Encoder<T> }) => void
 
   /**
    * Returns an object with read/write methods for operating on protobuf messages
    */
-  pb: <T> (proto: {encode: Encoder<T>, decode: Decoder<T> }) => {read: () => Promise<T>, write: (d: T) => void}
+  pb: <T> (proto: { encode: Encoder<T>, decode: Decoder<T> }) => { read: () => Promise<T>, write: (d: T) => void }
 
   /**
    * Returns the underlying stream
@@ -158,7 +158,7 @@ export function pbStream (duplex: Duplex<Uint8ArrayList | Uint8Array, Uint8Array
     pb: (proto) => {
       return {
         read: async () => await W.readPB(proto),
-        write: (d) => W.writePB(d, proto)
+        write: (d) => { W.writePB(d, proto) }
       }
     },
     unwrap: () => {
