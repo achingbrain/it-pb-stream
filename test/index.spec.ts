@@ -107,7 +107,7 @@ Object.keys(tests).forEach(key => {
       })
 
       it('lp exceeds max length decode', async () => {
-        const duplex = pair<any>()
+        const duplex = pair<Uint8Array>()
         const wrap = pbStream(duplex, { lengthDecoder: int32BEDecode, maxDataLength: 32 })
         const data = test.alloc(33, 1)
         const length = test.allocUnsafe(4)
