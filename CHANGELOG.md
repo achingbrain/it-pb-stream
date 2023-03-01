@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/achingbrain/it-pb-stream/compare/v3.0.0...v3.0.1) (2023-03-01)
+
+
+### Bug Fixes
+
+* make pbStream function polymorphic ([#40](https://github.com/achingbrain/it-pb-stream/issues/40)) ([ccb2065](https://github.com/achingbrain/it-pb-stream/commit/ccb2065d1147af56b5c1a929635f63443e469205))
+
 ## [3.0.0](https://github.com/achingbrain/it-pb-stream/compare/v2.0.4...v3.0.0) (2023-02-23)
 
 
