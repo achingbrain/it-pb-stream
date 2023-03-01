@@ -43,7 +43,7 @@ export interface Encoder<T> {
 /**
  * Convenience methods for working with protobuf streams
  */
-export interface ProtobufStream <TSink> {
+export interface ProtobufStream <Stream extends Duplex<Uint8ArrayList, Uint8ArrayList | Uint8Array> = Duplex<Uint8ArrayList, Uint8ArrayList | Uint8Array>> {
   /**
    * Read a set number of bytes from the stream
    */
@@ -82,7 +82,7 @@ export interface ProtobufStream <TSink> {
   /**
    * Returns the underlying stream
    */
-  unwrap: () => Duplex<Uint8ArrayList, TSink>
+  unwrap: () => Stream
 }
 
 export interface Opts {
@@ -97,14 +97,16 @@ export interface Opts {
   maxDataLength: number
 }
 
-export function pbStream <TSink extends Uint8Array | Uint8ArrayList> (duplex: Duplex<Uint8ArrayList | Uint8Array, TSink>, opts = {}): ProtobufStream<TSink> {
-  const shake = handshake(duplex)
+export function pbStream <Stream extends Duplex<Uint8ArrayList, Uint8Array | Uint8ArrayList>> (duplex: Stream, opts?: Partial<Opts>): ProtobufStream<Stream>
+export function pbStream <Stream extends Duplex<Uint8ArrayList, Uint8Array | Uint8ArrayList>> (duplex: Duplex<Uint8Array>, opts?: Partial<Opts>): ProtobufStream<Stream>
+export function pbStream (duplex: any, opts = {}): ProtobufStream<any> {
+  const shake = handshake<Uint8Array>(duplex)
   const lpReader = lp.decode.fromReader(
     shake.reader,
     opts
   )
 
-  const W: ProtobufStream<TSink> = {
+  const W: ProtobufStream<any> = {
     read: async (bytes) => {
       // just read
       const { value } = await shake.reader.next(bytes)
@@ -142,10 +144,8 @@ export function pbStream <TSink extends Uint8Array | Uint8ArrayList> (duplex: Du
     write: (data) => {
       // just write
       if (data instanceof Uint8Array) {
-        // @ts-expect-error writer should always accept pushing Uint8Arrays
         shake.writer.push(data)
       } else {
-        // @ts-expect-error writer should always accept pushing Uint8Arrays
         shake.writer.push(data.subarray())
       }
     },
@@ -166,7 +166,11 @@ export function pbStream <TSink extends Uint8Array | Uint8ArrayList> (duplex: Du
     unwrap: () => {
       // returns vanilla duplex again, terminates all reads/writes from this object
       shake.rest()
-      return shake.stream
+
+      duplex.source = shake.stream.source
+      duplex.sink = shake.stream.sink
+
+      return duplex
     }
   }
 

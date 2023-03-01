@@ -65,7 +65,7 @@ Object.keys(tests).forEach(key => {
   const test = tests[key]
 
   describe(`it-pb-rpc ${key}`, () => {
-    let w: ProtobufStream<Uint8Array>
+    let w: ProtobufStream
 
     before(async () => {
       w = pbStream(pair<Uint8Array>())
@@ -107,7 +107,7 @@ Object.keys(tests).forEach(key => {
       })
 
       it('lp exceeds max length decode', async () => {
-        const duplex = pair<Uint8Array>()
+        const duplex = pair<any>()
         const wrap = pbStream(duplex, { lengthDecoder: int32BEDecode, maxDataLength: 32 })
         const data = test.alloc(33, 1)
         const length = test.allocUnsafe(4)
