@@ -41,6 +41,14 @@ export interface Encoder<T> {
 }
 
 /**
+ * A message reader/writer that only uses one type of message
+ */
+export interface MessageStream <T> {
+  read: () => Promise<T>
+  write: (d: T) => void
+}
+
+/**
  * Convenience methods for working with protobuf streams
  */
 export interface ProtobufStream <Stream extends Duplex<Uint8ArrayList, Uint8ArrayList | Uint8Array> = Duplex<Uint8ArrayList, Uint8ArrayList | Uint8Array>> {
@@ -75,9 +83,9 @@ export interface ProtobufStream <Stream extends Duplex<Uint8ArrayList, Uint8Arra
   writePB: <T>(data: T, proto: { encode: Encoder<T> }) => void
 
   /**
-   * Returns an object with read/write methods for operating on protobuf messages
+   * Returns an object with read/write methods for operating on one specific type of protobuf message
    */
-  pb: <T> (proto: { encode: Encoder<T>, decode: Decoder<T> }) => { read: () => Promise<T>, write: (d: T) => void }
+  pb: <T> (proto: { encode: Encoder<T>, decode: Decoder<T> }) => MessageStream<T>
 
   /**
    * Returns the underlying stream
