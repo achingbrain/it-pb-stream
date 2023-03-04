@@ -1,3 +1,10 @@
+## [3.1.0](https://github.com/achingbrain/it-pb-stream/compare/v3.0.1...v3.1.0) (2023-03-04)
+
+
+### Features
+
+* add MessageStream type to make dealing with message streams easier ([#41](https://github.com/achingbrain/it-pb-stream/issues/41)) ([c1fa76a](https://github.com/achingbrain/it-pb-stream/commit/c1fa76a189f3f2b8f8f2444a605d87d91473de80))
+
 ## [3.0.1](https://github.com/achingbrain/it-pb-stream/compare/v3.0.0...v3.0.1) (2023-03-01)
 
 

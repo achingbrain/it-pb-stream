@@ -1,6 +1,6 @@
 {
   "name": "it-pb-stream",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "A convenience-wrapper around protocol-buffers and lp-messages functions",
   "author": "Alex Potsides <alex@achingbrain.net>",
   "license": "Apache-2.0 OR MIT",
