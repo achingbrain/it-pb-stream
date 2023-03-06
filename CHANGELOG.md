@@ -1,3 +1,10 @@
+## [3.2.0](https://github.com/achingbrain/it-pb-stream/compare/v3.1.0...v3.2.0) (2023-03-06)
+
+
+### Features
+
+* allow unwrapping message stream ([#42](https://github.com/achingbrain/it-pb-stream/issues/42)) ([f2169fe](https://github.com/achingbrain/it-pb-stream/commit/f2169fe81e87bc141d972456743affb3e5b6e676))
+
 ## [3.1.0](https://github.com/achingbrain/it-pb-stream/compare/v3.0.1...v3.1.0) (2023-03-04)
 
 
