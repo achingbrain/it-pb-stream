@@ -124,7 +124,7 @@
   "scripts": {
     "clean": "aegir clean",
     "lint": "aegir lint",
-    "dep-check": "aegir dep-check",
+    "dep-check": "aegir dep-check -i protons",
     "build": "aegir build",
     "test": "aegir test",
     "test:chrome": "aegir test -t browser --cov",
@@ -134,17 +134,20 @@
     "test:node": "aegir test -t node --cov",
     "test:electron-main": "aegir test -t electron-main",
     "release": "aegir release",
-    "docs": "aegir docs"
+    "docs": "aegir docs",
+    "generate": "protons test/fixtures/*.proto"
   },
   "dependencies": {
     "it-handshake": "^4.1.2",
     "it-length-prefixed": "^8.0.2",
     "it-stream-types": "^1.0.4",
+    "protons-runtime": "^5.0.0",
     "uint8arraylist": "^2.0.0"
   },
   "devDependencies": {
     "aegir": "^38.1.6",
     "it-pair": "^2.0.2",
+    "protons": "^7.0.2",
     "uint8arrays": "^4.0.2"
   }
 }

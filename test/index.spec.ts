@@ -8,6 +8,7 @@ import { concat as uint8ArrayConcat } from 'uint8arrays/concat'
 import { Uint8ArrayList } from 'uint8arraylist'
 import { Buffer } from 'buffer'
 import type { ProtobufStream } from '../src/index.js'
+import { TestMessage } from './fixtures/test-message.js'
 
 /* eslint-env mocha */
 /* eslint-disable require-await */
@@ -69,6 +70,13 @@ Object.keys(tests).forEach(key => {
 
     before(async () => {
       w = pbStream(pair<Uint8Array>())
+    })
+
+    it('unwraps underlying stream', () => {
+      const stream = pair<Uint8Array>()
+      const w = pbStream(stream)
+
+      expect(w.unwrap()).to.equal(stream)
     })
 
     describe('length-prefixed', () => {
@@ -154,6 +162,39 @@ Object.keys(tests).forEach(key => {
 
         assertBytesEqual(r, r1)
         assertBytesEqual(r, r2)
+      })
+    })
+
+    describe('pb stream', () => {
+      it('encode/decode', async () => {
+        const input = {
+          foo: 'bar'
+        }
+
+        w.writePB(input, TestMessage)
+
+        const output = await w.readPB(TestMessage)
+
+        expect(output).to.deep.equal(input)
+      })
+
+      it('supports pb streams', async () => {
+        const input = {
+          foo: 'bar'
+        }
+
+        const stream = w.pb(TestMessage)
+
+        stream.write(input)
+        const output = await stream.read()
+
+        expect(output).to.deep.equal(input)
+      })
+
+      it('supports unwrapping pb streams', async () => {
+        const stream = w.pb(TestMessage)
+
+        expect(stream.unwrap()).to.equal(w)
       })
     })
   })
