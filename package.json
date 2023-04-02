@@ -138,15 +138,19 @@
     "generate": "protons test/fixtures/*.proto"
   },
   "dependencies": {
-    "it-handshake": "^4.1.2",
-    "it-length-prefixed": "^8.0.2",
+    "err-code": "^3.0.1",
+    "it-length-prefixed": "^9.0.0",
+    "it-pushable": "^3.1.2",
     "it-stream-types": "^1.0.4",
     "protons-runtime": "^5.0.0",
+    "uint8-varint": "^1.0.6",
     "uint8arraylist": "^2.0.0"
   },
   "devDependencies": {
     "aegir": "^38.1.6",
+    "it-map": "^3.0.2",
     "it-pair": "^2.0.2",
+    "it-to-buffer": "^4.0.1",
     "protons": "^7.0.2",
     "uint8arrays": "^4.0.2"
   }
