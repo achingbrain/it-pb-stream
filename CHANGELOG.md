@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/achingbrain/it-pb-stream/compare/v3.2.0...v3.2.1) (2023-04-03)
+
+
+### Bug Fixes
+
+* allow unwrapping message stream with correct type ([#43](https://github.com/achingbrain/it-pb-stream/issues/43)) ([7f7a060](https://github.com/achingbrain/it-pb-stream/commit/7f7a0603c2d0b5f317d1751158c25e2b476e9e93))
+
 ## [3.2.0](https://github.com/achingbrain/it-pb-stream/compare/v3.1.0...v3.2.0) (2023-03-06)
 
 
