@@ -21,10 +21,12 @@
  * ```
  */
 
-import { handshake } from 'it-handshake'
 import * as lp from 'it-length-prefixed'
 import type { Duplex } from 'it-stream-types'
-import type { Uint8ArrayList } from 'uint8arraylist'
+import { Uint8ArrayList } from 'uint8arraylist'
+import { pushable } from 'it-pushable'
+import { unsigned } from 'uint8-varint'
+import errCode from 'err-code'
 
 /**
  * A protobuf decoder - takes a byte array and returns an object
@@ -117,36 +119,97 @@ export interface Opts {
   maxDataLength: number
 }
 
+const defaultLengthDecoder: lp.LengthDecoderFunction = (buf) => {
+  return unsigned.decode(buf)
+}
+defaultLengthDecoder.bytes = 0
+
 export function pbStream <Stream extends Duplex<Uint8ArrayList, Uint8Array | Uint8ArrayList>> (duplex: Stream, opts?: Partial<Opts>): ProtobufStream<Stream>
 export function pbStream <Stream extends Duplex<Uint8ArrayList, Uint8Array | Uint8ArrayList>> (duplex: Duplex<Uint8Array>, opts?: Partial<Opts>): ProtobufStream<Stream>
-export function pbStream (duplex: any, opts = {}): ProtobufStream<any> {
-  const shake = handshake<Uint8Array>(duplex)
-  const lpReader = lp.decode.fromReader(
-    shake.reader,
-    opts
-  )
+export function pbStream (duplex: any, opts: Partial<Opts> = {}): ProtobufStream<any> {
+  const write = pushable()
+
+  duplex.sink(write).catch((err: Error) => {
+    write.end(err)
+  })
+
+  duplex.sink = async (source: any) => {
+    for await (const buf of source) {
+      write.push(buf)
+    }
+  }
+
+  let source = duplex.source
+
+  if (duplex.source[Symbol.iterator] != null) {
+    source = duplex.source[Symbol.iterator]()
+  } else if (duplex.source[Symbol.asyncIterator] != null) {
+    source = duplex.source[Symbol.asyncIterator]()
+  }
+
+  const readBuffer = new Uint8ArrayList()
 
   const W: ProtobufStream<any> = {
     read: async (bytes) => {
-      // just read
-      const { value } = await shake.reader.next(bytes)
+      if (bytes == null) {
+        // just read whatever arrives
+        const { done, value } = await source.next()
 
-      if (value == null) {
-        throw new Error('Value is null')
+        if (done === true) {
+          return new Uint8ArrayList()
+        }
+
+        return value
       }
 
-      return value
+      while (readBuffer.byteLength < bytes) {
+        const { value, done } = await source.next()
+
+        if (done === true) {
+          throw errCode(new Error('unexpected end of input'), 'ERR_UNEXPECTED_EOF')
+        }
+
+        readBuffer.append(value)
+      }
+
+      const buf = readBuffer.sublist(0, bytes)
+      readBuffer.consume(bytes)
+
+      return buf
     },
     readLP: async () => {
-      // read, decode
-      // @ts-expect-error .next is part of the generator interface
-      const { value } = await lpReader.next()
+      let dataLength: number = -1
+      const lengthBuffer = new Uint8ArrayList()
+      const decodeLength = opts?.lengthDecoder ?? defaultLengthDecoder
 
-      if (value == null) {
-        throw new Error('Value is null')
+      while (true) {
+        // read one byte at a time until we can decode a varint
+        lengthBuffer.append(await W.read(1))
+
+        try {
+          dataLength = decodeLength(lengthBuffer)
+        } catch (err) {
+          if (err instanceof RangeError) {
+            continue
+          }
+
+          throw err
+        }
+
+        if (dataLength > -1) {
+          break
+        }
+
+        if (opts?.maxLengthLength != null && lengthBuffer.byteLength > opts.maxLengthLength) {
+          throw errCode(new Error('message length length too long'), 'ERR_MSG_LENGTH_TOO_LONG')
+        }
       }
 
-      return value
+      if (opts?.maxDataLength != null && dataLength > opts.maxDataLength) {
+        throw errCode(new Error('message length too long'), 'ERR_MSG_DATA_TOO_LONG')
+      }
+
+      return await W.read(dataLength)
     },
     readPB: async (proto) => {
       // readLP, decode
@@ -164,9 +227,9 @@ export function pbStream (duplex: any, opts = {}): ProtobufStream<any> {
     write: (data) => {
       // just write
       if (data instanceof Uint8Array) {
-        shake.writer.push(data)
+        write.push(data)
       } else {
-        shake.writer.push(data.subarray())
+        write.push(data.subarray())
       }
     },
     writeLP: (data) => {
@@ -185,11 +248,11 @@ export function pbStream (duplex: any, opts = {}): ProtobufStream<any> {
       }
     },
     unwrap: () => {
-      // returns vanilla duplex again, terminates all reads/writes from this object
-      shake.rest()
-
-      duplex.source = shake.stream.source
-      duplex.sink = shake.stream.sink
+      const originalStream = duplex.source
+      duplex.source = (async function * () {
+        yield * readBuffer
+        yield * originalStream
+      }())
 
       return duplex
     }

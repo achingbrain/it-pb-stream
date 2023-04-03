@@ -9,9 +9,12 @@ import { Uint8ArrayList } from 'uint8arraylist'
 import { Buffer } from 'buffer'
 import type { ProtobufStream } from '../src/index.js'
 import { TestMessage } from './fixtures/test-message.js'
+import { unsigned } from 'uint8-varint'
+import toBuffer from 'it-to-buffer'
+import map from 'it-map'
 
 /* eslint-env mocha */
-/* eslint-disable require-await */
+/* eslint-disable max-nested-callbacks */
 
 const assertBytesEqual = (a: Uint8Array | Uint8ArrayList, b: Uint8Array | Uint8ArrayList): void => {
   a = a instanceof Uint8Array ? a : a.slice()
@@ -195,6 +198,54 @@ Object.keys(tests).forEach(key => {
         const stream = w.pb(TestMessage)
 
         expect(stream.unwrap()).to.equal(w)
+      })
+
+      it('reads remaining data from unwrapped stream in one buffer', async () => {
+        const message = {
+          foo: 'bar'
+        }
+        const messageBuf = TestMessage.encode(message)
+        const extraData = Uint8Array.from([0, 1, 2, 3, 4, 5])
+
+        const w = pbStream({
+          source: (async function * () {
+            yield uint8ArrayConcat([
+              unsigned.encode(messageBuf.byteLength),
+              messageBuf,
+              extraData
+            ])
+          }()),
+          sink: async () => {}
+        })
+
+        const read = await w.readPB(TestMessage)
+        expect(read).to.deep.equal(message)
+
+        const rest = await toBuffer(map(w.unwrap().source, (buf) => buf.subarray()))
+        expect(rest).to.equalBytes(extraData)
+      })
+
+      it('reads remaining data from unwrapped stream in multiple buffers', async () => {
+        const message = {
+          foo: 'bar'
+        }
+        const messageBuf = TestMessage.encode(message)
+        const extraData = Uint8Array.from([0, 1, 2, 3, 4, 5])
+
+        const w = pbStream({
+          source: (async function * () {
+            yield unsigned.encode(messageBuf.byteLength)
+            yield messageBuf
+            yield extraData
+          }()),
+          sink: async () => {}
+        })
+
+        const read = await w.readPB(TestMessage)
+        expect(read).to.deep.equal(message)
+
+        const rest = await toBuffer(map(w.unwrap().source, (buf) => buf.subarray()))
+        expect(rest).to.equalBytes(extraData)
       })
     })
   })
