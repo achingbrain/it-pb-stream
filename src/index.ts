@@ -135,6 +135,8 @@ export function pbStream <Stream extends Duplex<any, any, any>> (duplex: Stream,
     for await (const buf of source) {
       write.push(buf)
     }
+
+    write.end()
   }
 
   let source = duplex.source
