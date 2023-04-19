@@ -65,7 +65,7 @@ export interface MessageStream <T, S = unknown> {
 /**
  * Convenience methods for working with protobuf streams
  */
-export interface ProtobufStream <Stream> {
+export interface ProtobufStream <Stream = unknown> {
   /**
    * Read a set number of bytes from the stream
    */
