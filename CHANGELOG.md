@@ -1,3 +1,11 @@
+## [4.0.1](https://github.com/achingbrain/it-pb-stream/compare/v4.0.0...v4.0.1) (2023-04-19)
+
+
+### Bug Fixes
+
+* close pushable after sink ends ([#46](https://github.com/achingbrain/it-pb-stream/issues/46)) ([767e231](https://github.com/achingbrain/it-pb-stream/commit/767e23197be08cfe84382c03747800aed9ebca14))
+* default stream type to unknown ([#45](https://github.com/achingbrain/it-pb-stream/issues/45)) ([6d01726](https://github.com/achingbrain/it-pb-stream/commit/6d0172635c2f9b2484c1cf2841945d4f939df6f7))
+
 ## [4.0.0](https://github.com/achingbrain/it-pb-stream/compare/v3.2.1...v4.0.0) (2023-04-19)
 
 
