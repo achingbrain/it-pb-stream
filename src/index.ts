@@ -45,7 +45,7 @@ export interface Encoder<T> {
 /**
  * A message reader/writer that only uses one type of message
  */
-export interface MessageStream <T, S extends Duplex<Uint8ArrayList, Uint8ArrayList | Uint8Array> = Duplex<Uint8ArrayList, Uint8ArrayList | Uint8Array>> {
+export interface MessageStream <T, S = unknown> {
   /**
    * Read a message from the stream
    */
@@ -65,7 +65,7 @@ export interface MessageStream <T, S extends Duplex<Uint8ArrayList, Uint8ArrayLi
 /**
  * Convenience methods for working with protobuf streams
  */
-export interface ProtobufStream <Stream extends Duplex<Uint8ArrayList, Uint8ArrayList | Uint8Array> = Duplex<Uint8ArrayList, Uint8ArrayList | Uint8Array>> {
+export interface ProtobufStream <Stream> {
   /**
    * Read a set number of bytes from the stream
    */
@@ -124,9 +124,7 @@ const defaultLengthDecoder: lp.LengthDecoderFunction = (buf) => {
 }
 defaultLengthDecoder.bytes = 0
 
-export function pbStream <Stream extends Duplex<Uint8ArrayList, Uint8Array | Uint8ArrayList>> (duplex: Stream, opts?: Partial<Opts>): ProtobufStream<Stream>
-export function pbStream <Stream extends Duplex<Uint8ArrayList, Uint8Array | Uint8ArrayList>> (duplex: Duplex<Uint8Array>, opts?: Partial<Opts>): ProtobufStream<Stream>
-export function pbStream (duplex: any, opts: Partial<Opts> = {}): ProtobufStream<any> {
+export function pbStream <Stream extends Duplex<any, any, any>> (duplex: Stream, opts?: Partial<Opts>): ProtobufStream<Stream> {
   const write = pushable()
 
   duplex.sink(write).catch((err: Error) => {

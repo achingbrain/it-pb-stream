@@ -69,7 +69,7 @@ Object.keys(tests).forEach(key => {
   const test = tests[key]
 
   describe(`it-pb-rpc ${key}`, () => {
-    let w: ProtobufStream
+    let w: ProtobufStream<any>
 
     before(async () => {
       w = pbStream(pair<Uint8Array>())
