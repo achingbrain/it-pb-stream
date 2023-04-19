@@ -1,3 +1,14 @@
+## [4.0.0](https://github.com/achingbrain/it-pb-stream/compare/v3.2.1...v4.0.0) (2023-04-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* bump it-stream-types from 1.0.5 to 2.0.1 (#44)
+
+### Dependencies
+
+* bump it-stream-types from 1.0.5 to 2.0.1 ([#44](https://github.com/achingbrain/it-pb-stream/issues/44)) ([76db1a5](https://github.com/achingbrain/it-pb-stream/commit/76db1a5b7323732a192229257eb21c420633e924))
+
 ## [3.2.1](https://github.com/achingbrain/it-pb-stream/compare/v3.2.0...v3.2.1) (2023-04-03)
 
 
