@@ -21,12 +21,12 @@
  * ```
  */
 
+import errCode from 'err-code'
 import * as lp from 'it-length-prefixed'
-import type { Duplex } from 'it-stream-types'
-import { Uint8ArrayList } from 'uint8arraylist'
 import { pushable } from 'it-pushable'
 import { unsigned } from 'uint8-varint'
-import errCode from 'err-code'
+import { Uint8ArrayList } from 'uint8arraylist'
+import type { Duplex } from 'it-stream-types'
 
 /**
  * A protobuf decoder - takes a byte array and returns an object
@@ -209,7 +209,7 @@ export function pbStream <Stream extends Duplex<any, any, any>> (duplex: Stream,
         throw errCode(new Error('message length too long'), 'ERR_MSG_DATA_TOO_LONG')
       }
 
-      return await W.read(dataLength)
+      return W.read(dataLength)
     },
     readPB: async (proto) => {
       // readLP, decode
@@ -242,7 +242,7 @@ export function pbStream <Stream extends Duplex<any, any, any>> (duplex: Stream,
     },
     pb: (proto) => {
       return {
-        read: async () => await W.readPB(proto),
+        read: async () => W.readPB(proto),
         write: (d) => { W.writePB(d, proto) },
         unwrap: () => W
       }
